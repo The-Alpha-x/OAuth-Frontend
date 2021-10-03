@@ -18,18 +18,21 @@ const Home = () => {
 
   useEffect(() => {
     console.log(location.search);
-    /*if (location?.search) {
+    if (location?.search) {
       setCode(location.search?.split("=")[1]?.split("&")[0]);
       axios.post(`http://localhost:5000/getToken`, { code }).then((res) => {
         console.log(res.data);
         setToken(res.data);
         setCheck(true);
+        localStorage.setItem("accessToken", res.data.access_token);
+        window.location = "/list";
       });
-      localStorage.setItem("token", token);
-      console.log(token);
+      //localStorage.setItem("token", token);
+      //console.log(token);
+      
     } else {
       setCode(false);
-    }*/
+    }
   });
   return (
     <div style={{ backgroundColor: "#EBF5FB", height: 720 }}>
@@ -74,9 +77,7 @@ const Home = () => {
             </button>
           </div>
         ) : (
-          {
-            /*<FileList token={token} />*/
-          }
+          <FileList token={token} />
         )}
       </div>
     </div>
