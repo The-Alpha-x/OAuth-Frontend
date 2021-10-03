@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+const querystring = require("querystring");
 
 const FileUpload = (props) => {
   const [token, setToken] = useState({
@@ -36,17 +37,33 @@ const FileUpload = (props) => {
     );
     const fileName = await res.json();
     console.log(fileName);
-    setFile(fileName.secure_url);
+    setFile(fileName);
 
     setImage(fileName.secure_url);
     setLoading(false);
   };
   const upload = () => {
-    axios
-      .post(`http://localhost:5000/fileUpload`, { file, token })
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+    };
+    /*const fd = new FormData();
+    fd.append("file", image);
+    fd.append("token", token);*/
+    const fileData = {
+      file: file,
+      token: token,
+    };
+
+    const response = axios
+      .post(
+        `https://www.googleapis.com/upload/drive/v3/files?uploadType=media`,
+        file
+      )
       .then((res) => {
         console.log(res.data);
       });
+
+    console.log(response);
   };
   return (
     <div style={{ backgroundColor: "#EBF5FB", height: 720 }}>
